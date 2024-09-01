@@ -47,5 +47,6 @@ def getRedHearts(debug=False) -> float:
                 # Draw the box
                 cv.rectangle(haystack_img, top_left, bottom_right, line_color, line_type)
         cv.imwrite('img/ThingWithBox.jpg', haystack_img)
-        
+    
+    #Returns the amount of red health we have
     return (float(len(fullHeartLocation))) + float(len(HalfHeartLocation)/2)

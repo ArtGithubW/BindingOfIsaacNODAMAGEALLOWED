@@ -4,5 +4,11 @@ Ever wondered why you are dogshit at binding of isaac? Its simply because there 
 
 ## Dependencies
 
-pip install pyautogui
+pip install pyautogui <br>
 pip install opencv-python
+
+### Notes:
+
+- Uses hardcoded positions based on 1280 x 720 windowed-window of isaac <br>
+- Does not account for pausing game/minimizing window yet
+- Does not account for retrying and starting new game yet

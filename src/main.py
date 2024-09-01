@@ -2,8 +2,6 @@ import pyautogui
 import pyscreeze
 import pygetwindow as gw
 import time
-import cv2 as cv
-import numpy as np
 import os
 from helper import *
 try: 
@@ -14,6 +12,7 @@ try:
     time.sleep(2)
     PreStartHP = 0.0 # Starting health to let program know when we actually started
     pastHP = 0.0
+    hitstaken = 0
     gameStarted = False
     while True:
         try:
@@ -29,16 +28,17 @@ try:
             # To not set false game start flags
             if CurrentHP > PreStartHP:
                 gameStarted = True
-                hitstaken = 0
                 
-            
+            if hitstaken > 0:
+                print(f"Hits Taken: {hitstaken}")
+                
             if gameStarted == True:
                 if pastHP > CurrentHP:
                     print("Lost HP") 
                     #! INSERT PUNISHMENT CODE HERE
+                    
                     hitstaken += 1
-                    print(f"Hits Taken: {hitstaken}")
-
+                    
                 elif pastHP == CurrentHP:
                     print("no change")
                 else:
