@@ -4,55 +4,65 @@ import pygetwindow as gw
 import time
 import os
 from helper import *
+
+
+#TODO: ADD BLACK HEART, SOUL HEART TRACKING
 try: 
-    #? This focuses on the isaac window then gets a screenshot of it
+    #? This focuses on the isaac window and sets it to 1280 x 720
     window = gw.getWindowsWithTitle("Binding of Isaac: Repentance")[0]
     window.activate()
     window.resizeTo(1280, 720)
     time.sleep(2)
-    PreStartHP = 0.0 # Starting health to let program know when we actually started
+    
+    #* Init values and flag
+    PreStartHP = 0.0
     pastHP = 0.0
     hitstaken = 0
     gameStarted = False
     while True:
         try:
             window_region = (window.left+125, window.top+50, 300, 100)
-            screenshot = pyautogui.screenshot(region=window_region)
-            screenshot.save("img/Thing.png")
         
-            #Inputting to terminal
-            os.system('cls' if os.name == 'nt' else 'clear')
-            CurrentHP = getRedHearts(debug=False)
-            print(f"Total hearts found: {CurrentHP}")
-            
-            # To not set false game start flags
+            os.system('cls' if os.name == 'nt' else 'clear') # Clearing Terminal
+            CurrentHP = getRedHearts(window_region,debug=False)
+        
+            # Initial Flag to check if we have started a game or not 
             if CurrentHP > PreStartHP:
                 gameStarted = True
-                
-            if hitstaken > 0:
-                print(f"Hits Taken: {hitstaken}")
-                
+            
+            # If game has started
             if gameStarted == True:
-                if pastHP > CurrentHP:
-                    print("Lost HP") 
-                    #! INSERT PUNISHMENT CODE HERE
-                    
-                    hitstaken += 1
-                    
-                elif pastHP == CurrentHP:
-                    print("no change")
+                
+                # Check for sudden disappearance of health(I.E changing levels, using teleports,etc...)
+                # Resumes the program if the pastHP is equal to the newest detected HP value
+                while CurrentHP == 0.0 and pastHP > 0.5:
+                    time.sleep(1)
+                    os.system('cls' if os.name == 'nt' else 'clear')
+                    print("Game Transitioning/Paused")
+                    CurrentHP = getRedHearts(window_region,debug=False)
+                    print(f"CurrentHP: {CurrentHP}")
+                    print(f"PastHP: {pastHP}")
+                    if CurrentHP == pastHP: # Game resume
+                        break
                 else:
-                    print("Gained HP, no change")
                     
+                    #Checking for health interaction
+                    print(f"Total hearts found: {CurrentHP}")
+                    if pastHP > CurrentHP:
+                        print("Lost HP") 
+                        #! INSERT PUNISHMENT CODE HERE
+                        hitstaken += 1
+                    elif pastHP == CurrentHP:
+                        print("no change")
+                    else:
+                        print("Gained HP, no change")
 
+                    print(f"Hits Taken: {hitstaken}")
 
+            # Update values
             pastHP = CurrentHP
             time.sleep(0.5)
 
-        except pyautogui.ImageNotFoundException:
-            print("Nothing Found")
-            time.sleep(0.5)
-            continue
         
         except pyscreeze.ImageNotFoundException:
             print("Nothing Found or Confidence too low")
@@ -61,6 +71,9 @@ try:
         
         except KeyboardInterrupt:
             break
+        
+except IndexError:
+    print("Isaac is not opened")
 except RuntimeError:
     print("sumting wrong :D")
     
