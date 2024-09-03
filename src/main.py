@@ -1,4 +1,4 @@
-import pyautogui
+
 import pyscreeze
 import pygetwindow as gw
 import time
@@ -19,35 +19,33 @@ try:
     pastHP = 0.0
     hitstaken = 0
     gameStarted = False
+    
     while True:
         try:
             window_region = (window.left+125, window.top+50, 300, 100)
-        
             os.system('cls' if os.name == 'nt' else 'clear') # Clearing Terminal
-            CurrentHP = getRedHearts(window_region,debug=False)
+            CurrentHP = getRednSoulHearts(window_region,debug=False)
         
             # Initial Flag to check if we have started a game or not 
             if CurrentHP > PreStartHP:
                 gameStarted = True
             
-            # If game has started
             if gameStarted == True:
-                
                 # Check for sudden disappearance of health(I.E changing levels, using teleports,etc...)
                 # Resumes the program if the pastHP is equal to the newest detected HP value
                 while CurrentHP == 0.0 and pastHP > 0.5:
                     time.sleep(1)
                     os.system('cls' if os.name == 'nt' else 'clear')
+                    CurrentHP = getRednSoulHearts(window_region,debug=False)
                     print("Game Transitioning/Paused")
-                    CurrentHP = getRedHearts(window_region,debug=False)
                     print(f"CurrentHP: {CurrentHP}")
                     print(f"PastHP: {pastHP}")
                     if CurrentHP == pastHP: # Game resume
                         break
                 else:
-                    
                     #Checking for health interaction
                     print(f"Total hearts found: {CurrentHP}")
+                    print(f"Hits Taken: {hitstaken}")
                     if pastHP > CurrentHP:
                         print("Lost HP") 
                         #! INSERT PUNISHMENT CODE HERE
@@ -57,16 +55,12 @@ try:
                     else:
                         print("Gained HP, no change")
 
-                    print(f"Hits Taken: {hitstaken}")
-
             # Update values
             pastHP = CurrentHP
             time.sleep(0.5)
-
         
         except pyscreeze.ImageNotFoundException:
             print("Nothing Found or Confidence too low")
-            time.sleep(0.5)
             continue
         
         except KeyboardInterrupt:
@@ -76,4 +70,3 @@ except IndexError:
     print("Isaac is not opened")
 except RuntimeError:
     print("sumting wrong :D")
-    
