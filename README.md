@@ -4,8 +4,7 @@ Ever wondered why you are dogshit at binding of isaac? Its simply because there 
 
 ## Dependencies
 
-pip install pyautogui <br>
-pip install opencv-python
+pip install -r requirements.txt
 
 ### Notes:
 
