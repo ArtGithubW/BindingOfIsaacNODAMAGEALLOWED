@@ -10,3 +10,8 @@ pip install -r requirements.txt
 
 - Uses hardcoded positions based on 1280 x 720 windowed-window of isaac <br>
 - Does not account for retrying and starting new game yet
+- Currently Supports changing levels, or using teleporting consumables
+  
+### TODO:
+- Add soul heart needle pictures
+- Add black heart code and picture
