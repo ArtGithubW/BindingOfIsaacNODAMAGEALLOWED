@@ -22,9 +22,9 @@ try:
     
     while True:
         try:
-            window_region = (window.left+125, window.top+50, 300, 100)
+            window_region = (window.left+125, window.top+50, 300, 100) # Hard coded region of the hearts on a 1280x720 window
             os.system('cls' if os.name == 'nt' else 'clear') # Clearing Terminal
-            CurrentHP = getRednSoulHearts(window_region,debug=False)
+            CurrentHP = getRednSoulHearts(window_region,debug=True)
         
             # Initial Flag to check if we have started a game or not 
             if CurrentHP > PreStartHP:
@@ -36,7 +36,7 @@ try:
                 while CurrentHP == 0.0 and pastHP > 0.5:
                     time.sleep(1)
                     os.system('cls' if os.name == 'nt' else 'clear')
-                    CurrentHP = getRednSoulHearts(window_region,debug=False)
+                    CurrentHP = getRednSoulHearts(window_region,debug=True)
                     print("Game Transitioning/Paused")
                     print(f"CurrentHP: {CurrentHP}")
                     print(f"PastHP: {pastHP}")
